@@ -22,7 +22,7 @@ services:
       PUBLICHOST: "localhost"
       FTP_USER_NAME: dev
       FTP_USER_PASS: dev
-      FTP_USER_HOME: /home/ftpusers/dev
+      # FTP_USER_HOME: /home/ftpusers/dev
       TLS_CN: "localhost"
       TLS_ORG: "SocialGouv"
       TLS_C: "FR"
