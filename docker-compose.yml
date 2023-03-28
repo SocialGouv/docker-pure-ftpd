@@ -13,7 +13,7 @@ services:
       - "2121:2121"
       - "30000-30009:30000-30009"
     # volumes:
-    #   - "$PWD/data:/home/ftpusers/dev/"
+    #   - "$PWD/data:/home/ftpusers/users/dev/"
       # - "$PWD/passwd/:/pureftpd/etc/passwd/"
       # # or ssl/tls with Let's Encrypt (cert and key as two files)
       # - "/etc/letsencrypt/live/<your_server>/cert.pem:/etc/ssl/private/pure-ftpd-cert.pem"
@@ -22,7 +22,7 @@ services:
       PUBLICHOST: "localhost"
       FTP_USER_NAME: dev
       FTP_USER_PASS: dev
-      # FTP_USER_HOME: /home/ftpusers/dev
+      # FTP_USER_HOME: /home/ftpusers/users/dev
       TLS_CN: "localhost"
       TLS_ORG: "SocialGouv"
       TLS_C: "FR"
