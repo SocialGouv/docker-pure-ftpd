@@ -6,6 +6,7 @@ services:
     build:
       context: .
     container_name: pure-ftpd
+    # user: "1001:1001"
     ports:
       - "2121:2121"
       - "30000-30009:30000-30009"
@@ -19,7 +20,7 @@ services:
       PUBLICHOST: "localhost"
       FTP_USER_NAME: user
       FTP_USER_PASS: pass
-      FTP_USER_HOME: /home/user
+      FTP_USER_HOME: /home/ftpusers/user
       TLS_CN: "localhost"
       TLS_ORG: "SocialGouv"
       TLS_C: "FR"

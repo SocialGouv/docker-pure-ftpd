@@ -2,6 +2,8 @@
 
 set -e
 
+export PATH="$PATH:/home/ftpusers/bin:/home/ftpusers/sbin"
+
 # https://www.pureftpd.org/project/pure-ftpd/doc
 
 # build up flags passed to this file on run + env flag for additional flags
@@ -83,6 +85,8 @@ $FTP_USER_PASS" > "$PWD_FILE"
     fi
 
     pure-pw useradd "$FTP_USER_NAME" -f "$PASSWD_FILE" -m -d "$FTP_USER_HOME" $PURE_PW_ADD_FLAGS < "$PWD_FILE"
+    
+    pure-pw mkdb /etc/pure-ftpd/pureftpd.pdb -f "$PASSWD_FILE"
 
     if [ ! -z "$FTP_USER_HOME_PERMISSION" ]
     then
@@ -154,4 +158,4 @@ echo "Starting Pure-FTPd:"
 echo "  pure-ftpd $PURE_FTPD_FLAGS"
 
 # start pureftpd with requested flags
-exec /usr/sbin/pure-ftpd $PURE_FTPD_FLAGS
+exec pure-ftpd $PURE_FTPD_FLAGS
