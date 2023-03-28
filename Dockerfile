@@ -13,21 +13,20 @@ deb-src http://security.debian.org buster/updates main\n\
 " > /etc/apt/sources.list
 
 RUN apt-get -y update && \
-	apt-get -y --fix-missing install dpkg-dev debhelper &&\
-	apt-get -y build-dep pure-ftpd
+	apt-get -y --fix-missing install dpkg-dev debhelper curl libssl-dev
+ARG PUREFTPD_VERSION=1.0.50
+RUN curl --fail -sL https://github.com/jedisct1/pure-ftpd/releases/download/${PUREFTPD_VERSION}/pure-ftpd-${PUREFTPD_VERSION}.tar.gz | tar xz -C /tmp/
 
-ARG LANGUAGE=french
-RUN mkdir /tmp/pure-ftpd/ && \
-	cd /tmp/pure-ftpd/ && \
-	apt-get source pure-ftpd && \
-	cd pure-ftpd-* && \
+ARG LANGUAGE=english
+RUN cd /tmp/pure-ftpd-${PUREFTPD_VERSION} && \
 	./configure \
-		--with-tls \
-		--with-nonroot \
-		--with-everything \
-		--with-language=${LANGUAGE} \
-		--prefix=/pureftpd && \
-		make install-strip
+	--with-tls \
+	--with-nonroot \
+	--with-everything \
+	--with-language=${LANGUAGE} \
+	--prefix=/pureftpd && \
+	make install-strip
+
 
 FROM debian:buster-slim
 
@@ -36,7 +35,6 @@ RUN apt-get -y update && \
 	apt-get  --no-install-recommends --yes install \
 	libc6 \
 	libcap2 \
-	libmariadb3 \
 	libpam0g \
 	libssl1.1 \
 	lsb-base \
