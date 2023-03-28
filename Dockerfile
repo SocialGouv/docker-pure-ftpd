@@ -42,7 +42,8 @@ RUN apt-get -y update && \
 	lsb-base \
 	openbsd-inetd \
 	openssl \
-	perl
+	perl && \
+		rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 1001 ftpgroup &&\
 	useradd -g ftpgroup --create-home -d /home/ftpusers -s /bin/sh -u 1001 ftpuser
