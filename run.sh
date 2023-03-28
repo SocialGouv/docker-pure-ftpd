@@ -2,29 +2,27 @@
 
 set -e
 
-export PATH="$PATH:/home/ftpusers/bin:/home/ftpusers/sbin"
+export PATH="$PATH:/pureftpd/bin:/pureftpd/sbin"
 
-# https://www.pureftpd.org/project/pure-ftpd/doc
 
 # build up flags passed to this file on run + env flag for additional flags
 # e.g. -e "ADDED_FLAGS=--tls=2"
 PURE_FTPD_FLAGS=" $@ $ADDED_FLAGS "
 
-# start rsyslog
+# tail log
 if [[ "$PURE_FTPD_FLAGS" == *" -d "* ]] || [[ "$PURE_FTPD_FLAGS" == *"--verboselog"* ]]
 then
-    echo "Log enabled, see /var/log/messages"
-    rsyslogd
-    rm -rf /var/log/pure-ftpd/pureftpd.log
-    tail --pid $$ -F /var/log/pure-ftpd/pureftpd.log &
+    echo "Log enabled"
+    touch /var/log/pureftpd.log
+    tail --pid $$ -F /var/log/pureftpd.log &
 fi
 
-PASSWD_FILE="/etc/pure-ftpd/passwd/pureftpd.passwd"
+PASSWD_FILE="/pureftpd/etc/pureftpd.passwd"
 
 # Load in any existing db from volume store
 if [ -e "$PASSWD_FILE" ]
 then
-    pure-pw mkdb /etc/pure-ftpd/pureftpd.pdb -f "$PASSWD_FILE"
+    pure-pw mkdb /pureftpd/etc/pureftpd.pdb -f "$PASSWD_FILE"
 fi
 
 # detect if using TLS (from volumed in file) but no flag set, set one
@@ -86,7 +84,7 @@ $FTP_USER_PASS" > "$PWD_FILE"
 
     pure-pw useradd "$FTP_USER_NAME" -f "$PASSWD_FILE" -m -d "$FTP_USER_HOME" $PURE_PW_ADD_FLAGS < "$PWD_FILE"
     
-    pure-pw mkdb /etc/pure-ftpd/pureftpd.pdb -f "$PASSWD_FILE"
+    pure-pw mkdb /pureftpd/etc/pureftpd.pdb -f "$PASSWD_FILE"
 
     if [ ! -z "$FTP_USER_HOME_PERMISSION" ]
     then

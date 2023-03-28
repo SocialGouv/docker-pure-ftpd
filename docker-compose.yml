@@ -5,6 +5,8 @@ services:
     # image: stilliard/pure-ftpd
     build:
       context: .
+      args:
+        BANNER: "---------- Welcome to SocialGouv Pure-FTPd [TLS] ----------"
     container_name: pure-ftpd
     # user: "1001:1001"
     ports:
@@ -18,13 +20,13 @@ services:
       # - "/etc/letsencrypt/live/<your_server>/privkey.pem:/etc/ssl/private/pure-ftpd-key.pem"
     environment:
       PUBLICHOST: "localhost"
-      FTP_USER_NAME: user
-      FTP_USER_PASS: pass
+      FTP_USER_NAME: dev
+      FTP_USER_PASS: dev
       FTP_USER_HOME: /home/ftpusers/user
       TLS_CN: "localhost"
       TLS_ORG: "SocialGouv"
       TLS_C: "FR"
-      ADDED_FLAGS: "--tls=1"
+      ADDED_FLAGS: "--tls=1 --verboselog"
       # # dev only
       TLS_USE_DSAPRAM: "true"
     restart: "no"

@@ -9,11 +9,19 @@ https://github.com/orgs/SocialGouv/packages/container/package/docker-pure-ftpd
 
 ----------------------------------------
 
+For Pure-FTPd documentation see:
+- https://www.pureftpd.org/project/pure-ftpd/doc
+- https://www.mankier.com/8/pure-ftpd
+
+----------------------------------------
+
 Added features:
 - Rootless (https://github.com/stilliard/docker-pure-ftpd/discussions/171)
-- dev helper (dev.sh)
-- ready to use docker-compose
-- Ghcr build github workflow
+- Custom Build Language
+- Custom Build Banner
+- GHCR build github workflow
+- Ready to use docker-compose
+- Dev helper (dev.sh)
 
 ----------------------------------------
 
@@ -21,28 +29,6 @@ Pull down latest version with docker:
 ```bash
 docker pull ghcr.io/socialgouv/docker-vsftpd
 ```
-
-----------------------------------------
-
-**If you want to make changes, my advice is to either change the run command when running it or extend this image to make any changes rather than forking the project.**  
-This is because rebuilding the entire docker image via a fork can be *very* slow as it rebuilds the entire pure-ftpd package from source. 
-
-To change the command run on start you could use the `command:` option if using `docker-compose`, or with [`docker run`](https://docs.docker.com/engine/reference/run/) directly you could use:
-
-```
-docker run --rm -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 ghcr.io/socialgouv/docker-vsftpd bash /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P localhost -p 30000:30059
-```
-
-To extend it you can create a new project with a `DOCKERFILE` like so:
-
-```
-FROM ghcr.io/socialgouv/docker-vsftpd
-
-# e.g. you could change the defult command run:
-CMD /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P $PUBLICHOST -p 30000:30059
-```
-
-*Then you can build your own image, `docker build --rm -t my-pure-ftp .`, where my-pure-ftp is the name you want to build as*
 
 ----------------------------------------
 
@@ -102,7 +88,7 @@ Test your connection
 -------------------------
 From the host machine:
 ```bash
-ftp -p localhost 2121
+ftp -P 2121 localhost
 ```
 
 -------------------------
