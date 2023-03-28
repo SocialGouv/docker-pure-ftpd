@@ -17,6 +17,9 @@ then
     tail --pid $$ -F /var/log/pureftpd.log &
 fi
 
+# write welcome banner
+echo "$WELCOME_BANNER">/pureftpd/banner.txt
+
 PASSWD_FILE="/pureftpd/etc/pureftpd.passwd"
 
 # Load in any existing db from volume store

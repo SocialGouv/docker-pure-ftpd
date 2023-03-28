@@ -18,7 +18,7 @@ For Pure-FTPd documentation see:
 Added features:
 - Rootless (https://github.com/stilliard/docker-pure-ftpd/discussions/171)
 - Custom Build Language
-- Custom Build Banner
+- Custom Banner
 - GHCR build github workflow
 - Ready to use docker-compose
 - Dev helper (dev.sh)
