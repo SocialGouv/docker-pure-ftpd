@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+# https://www.pureftpd.org/project/pure-ftpd/doc
+
 # build up flags passed to this file on run + env flag for additional flags
 # e.g. -e "ADDED_FLAGS=--tls=2"
 PURE_FTPD_FLAGS=" $@ $ADDED_FLAGS "
@@ -16,7 +20,7 @@ fi
 PASSWD_FILE="/etc/pure-ftpd/passwd/pureftpd.passwd"
 
 # Load in any existing db from volume store
-if [ -e /etc/pure-ftpd/passwd/pureftpd.passwd ]
+if [ -e "$PASSWD_FILE" ]
 then
     pure-pw mkdb /etc/pure-ftpd/pureftpd.pdb -f "$PASSWD_FILE"
 fi
@@ -142,6 +146,8 @@ then
     echo "Setting default max connections per ip to: $FTP_MAX_CONNECTIONS"
     PURE_FTPD_FLAGS="$PURE_FTPD_FLAGS -C $FTP_MAX_CONNECTIONS"
 fi
+
+PURE_FTPD_FLAGS="$PURE_FTPD_FLAGS --bind 2121"
 
 # let users know what flags we've ended with (useful for debug)
 echo "Starting Pure-FTPd:"

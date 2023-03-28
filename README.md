@@ -1,26 +1,26 @@
 Docker Pure-ftpd Server
 ============================
-https://hub.docker.com/r/stilliard/pure-ftpd/
-
-[![Build Status](https://travis-ci.org/stilliard/docker-pure-ftpd.svg?branch=master)](https://travis-ci.org/stilliard/docker-pure-ftpd)
-[![Docker Build Status](https://img.shields.io/docker/cloud/automated/stilliard/pure-ftpd)](https://hub.docker.com/r/stilliard/pure-ftpd/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/stilliard/pure-ftpd.svg)](https://hub.docker.com/r/stilliard/pure-ftpd/)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fstilliard%2Fdocker-pure-ftpd.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fstilliard%2Fdocker-pure-ftpd?ref=badge_shield)
-[![Sponsor Project](https://img.shields.io/badge/%E2%99%A5-Sponsor_Project-blueviolet)](https://github.com/sponsors/stilliard)
-
+https://github.com/orgs/SocialGouv/packages/container/package/docker-pure-ftpd
 
 ----------------------------------------
 
-#### Check out our [basic example workflow](https://github.com/stilliard/docker-pure-ftpd/wiki/Basic-example-walk-through) & our [slightly more advanced workflow with tls & an auto created user](https://github.com/stilliard/docker-pure-ftpd/wiki/Advanced-example-walk-through-with-TLS-&-automatic-user-account).
+#### Based on [stilliard/docker-pure-ftpd](https://github.com/stilliard/docker-pure-ftpd)
+#### Check their examples [basic example workflow](https://github.com/stilliard/docker-pure-ftpd/wiki/Basic-example-walk-through) & our [slightly more advanced workflow with tls & an auto created user](https://github.com/stilliard/docker-pure-ftpd/wiki/Advanced-example-walk-through-with-TLS-&-automatic-user-account).
+
+----------------------------------------
+
+Added features:
+- Rootless (https://github.com/stilliard/docker-pure-ftpd/discussions/171)
+- dev helper (dev.sh)
+- ready to use docker-compose
+- Ghcr build github workflow
 
 ----------------------------------------
 
 Pull down latest version with docker:
 ```bash
-docker pull stilliard/pure-ftpd
+docker pull ghcr.io/socialgouv/docker-vsftpd
 ```
-
-**Often needing to run as `sudo`, e.g. `sudo docker pull stilliard/pure-ftpd`**
 
 ----------------------------------------
 
@@ -30,13 +30,13 @@ This is because rebuilding the entire docker image via a fork can be *very* slow
 To change the command run on start you could use the `command:` option if using `docker-compose`, or with [`docker run`](https://docs.docker.com/engine/reference/run/) directly you could use:
 
 ```
-docker run --rm -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 stilliard/pure-ftpd bash /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P localhost -p 30000:30059
+docker run --rm -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 ghcr.io/socialgouv/docker-vsftpd bash /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P localhost -p 30000:30059
 ```
 
 To extend it you can create a new project with a `DOCKERFILE` like so:
 
 ```
-FROM stilliard/pure-ftpd
+FROM ghcr.io/socialgouv/docker-vsftpd
 
 # e.g. you could change the defult command run:
 CMD /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P $PUBLICHOST -p 30000:30059
@@ -49,9 +49,9 @@ CMD /run.sh -c 30 -C 10 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -P $PUBLI
 Starting it 
 ------------------------------
 
-`docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" stilliard/pure-ftpd`
+`docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" ghcr.io/socialgouv/docker-vsftpd`
 
-*Or for your own image, replace stilliard/pure-ftpd with the name you built it with, e.g. my-pure-ftp*
+*Or for your own image, replace ghcr.io/socialgouv/docker-vsftpd with the name you built it with, e.g. my-pure-ftp*
 
 You can also pass ADDED_FLAGS as an env variable to add additional options such as --tls to the pure-ftpd command.  
 e.g. ` -e "ADDED_FLAGS=--tls=2" `
@@ -71,7 +71,7 @@ To create a user on the ftp container, use the following environment variables: 
 
 Example usage:
 
-`docker run -e FTP_USER_NAME=bob -e FTP_USER_PASS=12345 -e FTP_USER_HOME=/home/bob stilliard/pure-ftpd`
+`docker run -e FTP_USER_NAME=bob -e FTP_USER_PASS=12345 -e FTP_USER_HOME=/home/bob ghcr.io/socialgouv/docker-vsftpd`
 
 If you wish to set the `UID` & `GID` of the FTP user, use the `FTP_USER_UID` & `FTP_USER_GID` environment variables.
 
@@ -80,7 +80,7 @@ Using different passive ports
 
 To use passive ports in a different range (*eg*: `10000-10009`), use the following setup:
 
-`docker run -e FTP_PASSIVE_PORTS=10000:10009 --expose=10000-10009 -p 21:21 -p 10000-10009:10000-10009`
+`docker run -e FTP_PASSIVE_PORTS=10000:10009 --expose=10000-10009 -p 2121:2121 -p 10000-10009:10000-10009`
 
 You may need the `--expose=` option, because default passive ports exposed are `30000` to `30009`.
 
@@ -102,7 +102,7 @@ Test your connection
 -------------------------
 From the host machine:
 ```bash
-ftp -p localhost 21
+ftp -p localhost 2121
 ```
 
 -------------------------
@@ -164,7 +164,7 @@ Tags available for different versions
 *Check the tags on github for available versions, feel free to submit issues and/or pull requests for newer versions*
 
 Usage of specific tags: 
-`sudo docker pull stilliard/pure-ftpd:hardened-1.0.36`
+`sudo docker pull ghcr.io/socialgouv/docker-vsftpd:hardened-1.0.36`
 
 **An arm64 build is also available here:** https://hub.docker.com/r/zhabba/pure-ftpd-arm64 *- Thanks @zhabba*
 
@@ -220,7 +220,7 @@ docker volume create --name my-db-volume
 
 Specify it when running the container:
 ```
-docker run -d --name ftpd_server -p 21:21 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" -v my-db-volume:/etc/pure-ftpd/passwd stilliard/pure-ftpd
+docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" -v my-db-volume:/etc/pure-ftpd/passwd ghcr.io/socialgouv/docker-vsftpd
 ```
 
 When an user is added, you need to use the password file which is in the volume:
@@ -306,18 +306,3 @@ Or concat them manually with
 ```sh
 cat /etc/letsencrypt/live/<your_server>/cert.pem /etc/letsencrypt/live/<your_server>/privkey.pem > pure-ftpd.pem
 ```
-
-
-Credits
--------------
-Thanks for the help on stackoverflow with this!
-https://stackoverflow.com/questions/23930167/installing-pure-ftpd-in-docker-debian-wheezy-error-421
-
-Also thanks to all the awesome contributors that have made this project amazing!
-https://github.com/stilliard/docker-pure-ftpd/graphs/contributors
-
-You can also help support the development of this project with coffee power:
-<a href="https://www.buymeacoffee.com/stilliard" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fstilliard%2Fdocker-pure-ftpd.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fstilliard%2Fdocker-pure-ftpd?ref=badge_large)

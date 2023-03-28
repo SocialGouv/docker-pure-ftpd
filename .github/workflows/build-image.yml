@@ -1,0 +1,24 @@
+name: 📦 Build Docker Image
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.ref }}
+
+jobs:
+  build-base-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: socialgouv/workflows/actions/build-image@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
