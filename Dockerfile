@@ -50,8 +50,6 @@ RUN groupadd -g 1001 ftpgroup &&\
 
 COPY --from=builder --chown=1001:1001 /pureftpd /pureftpd
 
-RUN apt-mark hold pure-ftpd pure-ftpd-common
-
 RUN chown -R ftpuser:ftpgroup /etc/ssl/private && \
 	chown -R ftpuser:ftpgroup /var/log
 
