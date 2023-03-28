@@ -42,8 +42,11 @@ RUN apt-get -y update && \
 	lsb-base \
 	openbsd-inetd \
 	openssl \
+	ssl-cert \
 	perl && \
 		rm -rf /var/lib/apt/lists/*
+
+RUN make-ssl-cert generate-default-snakeoil --force-overwrite
 
 RUN groupadd -g 1001 ftpgroup &&\
 	useradd -g ftpgroup --create-home -d /home/ftpusers -s /bin/sh -u 1001 ftpuser
