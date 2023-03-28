@@ -20,7 +20,8 @@ fi
 # write welcome banner
 echo "$WELCOME_BANNER">/pureftpd/banner.txt
 
-PASSWD_FILE="/pureftpd/etc/pureftpd.passwd"
+mkdir /pureftpd/etc/passwd
+PASSWD_FILE="/pureftpd/etc/passwd/pureftpd.passwd"
 
 # Load in any existing db from volume store
 if [ -e "$PASSWD_FILE" ]

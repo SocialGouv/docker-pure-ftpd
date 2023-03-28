@@ -14,7 +14,7 @@ services:
       - "30000-30009:30000-30009"
     # volumes:
     #   - "$PWD/data:/home/ftpusers/dev/"
-      # - "$PWD/passwd:/pureftpd/etc/pureftpd.passwd"
+      # - "$PWD/passwd/:/pureftpd/etc/passwd/"
       # # or ssl/tls with Let's Encrypt (cert and key as two files)
       # - "/etc/letsencrypt/live/<your_server>/cert.pem:/etc/ssl/private/pure-ftpd-cert.pem"
       # - "/etc/letsencrypt/live/<your_server>/privkey.pem:/etc/ssl/private/pure-ftpd-key.pem"
