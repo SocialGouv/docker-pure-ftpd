@@ -64,8 +64,6 @@ CMD /run.sh \
 	-O clf:/var/log/pureftpd.log \
 	-P $PUBLICHOST
 
-EXPOSE 2121 30000-30009
-
 USER 1001
 WORKDIR /home/ftpusers
 
