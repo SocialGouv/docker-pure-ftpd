@@ -61,7 +61,8 @@ then
 fi
 
 # Add user
-if [ ! -z "$FTP_USER_NAME" ] && [ ! -z "$FTP_USER_PASS" ] && [ ! -z "$FTP_USER_HOME" ]
+export FTP_USER_HOME=${FTP_USER_HOME:-"/home/ftpusers/$FTP_USER_NAME"}
+if [ ! -z "$FTP_USER_NAME" ] && [ ! -z "$FTP_USER_PASS" ]
 then
     echo "Creating user..."
 
