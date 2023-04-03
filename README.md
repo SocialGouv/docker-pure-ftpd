@@ -27,7 +27,7 @@ Added features:
 
 Pull down latest version with docker:
 ```bash
-docker pull ghcr.io/socialgouv/docker-vsftpd
+docker pull ghcr.io/socialgouv/docker-pure-ftpd
 ```
 
 ----------------------------------------
@@ -35,9 +35,9 @@ docker pull ghcr.io/socialgouv/docker-vsftpd
 Starting it 
 ------------------------------
 
-`docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" ghcr.io/socialgouv/docker-vsftpd`
+`docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" ghcr.io/socialgouv/docker-pure-ftpd`
 
-*Or for your own image, replace ghcr.io/socialgouv/docker-vsftpd with the name you built it with, e.g. my-pure-ftp*
+*Or for your own image, replace ghcr.io/socialgouv/docker-pure-ftpd with the name you built it with, e.g. my-pure-ftp*
 
 You can also pass ADDED_FLAGS as an env variable to add additional options such as --tls to the pure-ftpd command.  
 e.g. ` -e "ADDED_FLAGS=--tls=2" `
@@ -57,7 +57,7 @@ To create a user on the ftp container, use the following environment variables: 
 
 Example usage:
 
-`docker run -e FTP_USER_NAME=bob -e FTP_USER_PASS=12345 -e FTP_USER_HOME=/home/bob ghcr.io/socialgouv/docker-vsftpd`
+`docker run -e FTP_USER_NAME=bob -e FTP_USER_PASS=12345 -e FTP_USER_HOME=/home/bob ghcr.io/socialgouv/docker-pure-ftpd`
 
 If you wish to set the `UID` & `GID` of the FTP user, use the `FTP_USER_UID` & `FTP_USER_GID` environment variables.
 
@@ -150,7 +150,7 @@ Tags available for different versions
 *Check the tags on github for available versions, feel free to submit issues and/or pull requests for newer versions*
 
 Usage of specific tags: 
-`sudo docker pull ghcr.io/socialgouv/docker-vsftpd:hardened-1.0.36`
+`sudo docker pull ghcr.io/socialgouv/docker-pure-ftpd:hardened-1.0.36`
 
 **An arm64 build is also available here:** https://hub.docker.com/r/zhabba/pure-ftpd-arm64 *- Thanks @zhabba*
 
@@ -206,7 +206,7 @@ docker volume create --name my-db-volume
 
 Specify it when running the container:
 ```
-docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" -v my-db-volume:/etc/pure-ftpd/passwd ghcr.io/socialgouv/docker-vsftpd
+docker run -d --name ftpd_server -p 2121:2121 -p 30000-30009:30000-30009 -e "PUBLICHOST=localhost" -v my-db-volume:/etc/pure-ftpd/passwd ghcr.io/socialgouv/docker-pure-ftpd
 ```
 
 When an user is added, you need to use the password file which is in the volume:
